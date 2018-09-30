@@ -27,7 +27,7 @@ def pool(bot):
             if 'num:' in body.lower():
                 try:
                     label = int(body[4:].strip(' '))
-                    image.save_image(network, label)
+                    image.save_image(network, label, update_even_if_exists=False)
                     bot.send_photo_message(from_id, [f'img_num_10/{label}.png'])
                     time.sleep(sleep)
                     continue

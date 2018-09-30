@@ -1,5 +1,6 @@
 import numpy
 import matplotlib.pyplot as plt
+import os.path
 
 from PIL import Image as PIL_Image
 
@@ -28,9 +29,15 @@ class Image:
 
     # just for neural-network method
     @staticmethod
-    def save_image(network, label, update_enen_if_exists=False):
+    def save_image(network, label, update_even_if_exists=False):
         targets = numpy.zeros(network.onodes) + 0.01
         targets[label] = 0.99
-
-        image_data = network.backquery(targets)
-        plt.imsave(f'img_num_10/{label}.png', image_data.reshape(28, 28), cmap='Greys')
+        
+        file_name = f'img_num_10/{label}.png'
+        if update_even_if_exists:
+            image_data = network.backquery(targets)
+            plt.imsave(file_name, image_data.reshape(28, 28), cmap='Greys')
+        elif not os.path.isfile(file_name):
+            print(f'Added num {label}')
+            image_data = network.backquery(targets)
+            plt.imsave(file_name, image_data.reshape(28, 28), cmap='Greys')    
